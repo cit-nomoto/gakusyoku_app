@@ -1,1 +1,246 @@
-/* CSSスタイル記述 */
+/* 基本設定 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 共通要素 */
+a {
+    color: #3498db;
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+}
+
+h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #3498db;
+}
+
+h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+h4 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+/* ヘッダー */
+.header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px 0;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.header h1 {
+    font-size: 24px;
+}
+
+.header a {
+    color: white;
+    text-decoration: none;
+}
+
+.header a:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.user-info {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #ecf0f1;
+}
+
+/* フラッシュメッセージ */
+.flash-messages {
+    background-color: #3498db;
+    color: white;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+/* メインコンテンツ */
+.main-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+/* ナビゲーション */
+nav, .navigation {
+    background-color: #34495e;
+    padding: 12px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+nav a, .navigation a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    margin: 0 5px;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+}
+
+nav a:hover, .navigation a:hover {
+    background-color: #2c3e50;
+    text-decoration: none;
+}
+
+/* ページヘッダー */
+.page-header {
+    margin-bottom: 20px;
+}
+
+/* テーブル */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th {
+    background-color: #3498db;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* カテゴリリスト */
+ul {
+    list-style: none;
+}
+
+.category-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.category-list li {
+    background-color: #ecf0f1;
+    padding: 8px 15px;
+    border-radius: 20px;
+    color: #2c3e50;
+}
+
+/* ボタン */
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+/* フォーム */
+input[type="text"], 
+input[type="password"], 
+select, 
+textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.auth-form, .review-form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.auth-form th, .review-form th {
+    text-align: right;
+    padding: 10px;
+    width: 40%;
+}
+
+.auth-form td, .review-form td {
+    padding: 10px;
+}
+
+/* データなし表示 */
+.no-data {
+    text-align: center;
+    padding: 40px;
+    color: #7f8c8d;
+    font-size: 18px;
+}
+
+/* 画像 */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* チャート */
+.chart-container {
+    margin: 30px 0;
+    text-align: center;
+}
+
+.chart-container img {
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* セクション */
+.menu-info, 
+.reviews-section, 
+.charts-section {
+    margin: 30px 0;
+}
