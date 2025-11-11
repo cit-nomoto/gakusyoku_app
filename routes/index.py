@@ -129,3 +129,98 @@ def post_review(id):
     existing_review = Review.query.filter_by(user_id=user.id, menu_id=id).first()
     
     return render_template('post_review.html', user=user, menu=menu, review=existing_review)
+
+
+# 管理者専用: メニュー削除
+@index_bp.route('/menus/<int:id>/delete', methods=['POST'])
+def delete_menu(id):
+    # ログインチェック
+    if 'user_id' not in session:
+        return redirect(url_for('auth.login'))
+    
+    user = User.query.get(session['user_id'])
+    
+    # 管理者チェック
+    if not user.is_admin:
+        flash('管理者権限がありません')
+        return redirect(url_for('index.index'))
+    
+    menu = Menu.query.get_or_404(id)
+    menu_name = menu.name
+    
+    db.session.delete(menu)
+    db.session.commit()
+    
+    flash(f'メニュー「{menu_name}」を削除しました')
+    return redirect(url_for('index.index'))
+
+
+# 管理者専用: レビュー削除
+@index_bp.route('/reviews/<int:id>/delete', methods=['POST'])
+def delete_review(id):
+    # ログインチェック
+    if 'user_id' not in session:
+        return redirect(url_for('auth.login'))
+    
+    user = User.query.get(session['user_id'])
+    
+    # 管理者チェック
+    if not user.is_admin:
+        flash('管理者権限がありません')
+        return redirect(url_for('index.index'))
+    
+    review = Review.query.get_or_404(id)
+    menu_id = review.menu_id
+    
+    db.session.delete(review)
+    db.session.commit()
+    
+    flash('レビューを削除しました')
+    return redirect(url_for('index.menu_detail', id=menu_id))
+
+
+# 管理者専用: ユーザー一覧と削除
+@index_bp.route('/admin/users')
+def admin_users():
+    # ログインチェック
+    if 'user_id' not in session:
+        return redirect(url_for('auth.login'))
+    
+    user = User.query.get(session['user_id'])
+    
+    # 管理者チェック
+    if not user.is_admin:
+        flash('管理者権限がありません')
+        return redirect(url_for('index.index'))
+    
+    users = User.query.order_by(User.created_at.desc()).all()
+    return render_template('admin_users.html', user=user, users=users)
+
+
+# 管理者専用: ユーザー削除
+@index_bp.route('/admin/users/<int:id>/delete', methods=['POST'])
+def delete_user(id):
+    # ログインチェック
+    if 'user_id' not in session:
+        return redirect(url_for('auth.login'))
+    
+    user = User.query.get(session['user_id'])
+    
+    # 管理者チェック
+    if not user.is_admin:
+        flash('管理者権限がありません')
+        return redirect(url_for('index.index'))
+    
+    # 自分自身は削除できない
+    if user.id == id:
+        flash('自分自身は削除できません')
+        return redirect(url_for('index.admin_users'))
+    
+    target_user = User.query.get_or_404(id)
+    username = target_user.username
+    
+    db.session.delete(target_user)
+    db.session.commit()
+    
+    flash(f'ユーザー「{username}」を削除しました')
+    return redirect(url_for('index.admin_users'))

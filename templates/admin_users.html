@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}ユーザー管理 - 学食メニュー満足度アプリ{% endblock %}
+
+{% block content %}
+<nav class="navigation">
+    <a href="/">メニュー一覧</a> | 
+    <a href="/analysis">データ分析</a> | 
+    {% if user.is_admin %}
+    <a href="/admin/users">ユーザー管理</a> | 
+    {% endif %}
+    <a href="/logout">ログアウト</a>
+</nav>
+
+<div class="page-header">
+    <h2>ユーザー管理</h2>
+</div>
+
+<p class="back-link"><a href="/">メニュー一覧に戻る</a></p>
+
+{% if users %}
+<div class="users-section">
+    <table class="users-table" border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ユーザー名</th>
+                <th>管理者</th>
+                <th>登録日</th>
+                <th>レビュー数</th>
+                <th>管理</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in users %}
+            <tr>
+                <td>{{ u.id }}</td>
+                <td>{{ u.username }}</td>
+                <td>{{ '○' if u.is_admin else '-' }}</td>
+                <td>{{ u.created_at.strftime('%Y-%m-%d') }}</td>
+                <td>{{ u.reviews|length }}</td>
+                <td>
+                    {% if u.id != user.id %}
+                    <form method="POST" action="/admin/users/{{ u.id }}/delete" style="display:inline;" onsubmit="return confirm('本当に削除しますか?');">
+                        <button type="submit">削除</button>
+                    </form>
+                    {% else %}
+                    <span >（自分）</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="no-data">
+    <p>ユーザーがいません</p>
+</div>
+{% endif %}
+{% endblock %}
