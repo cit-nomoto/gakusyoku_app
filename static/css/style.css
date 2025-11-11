@@ -18,6 +18,38 @@ body {
     padding: 0 20px;
 }
 
+/* 共通要素 */
+a {
+    color: #3498db;
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+}
+
+h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #3498db;
+}
+
+h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+h4 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
 /* ヘッダー */
 .header {
     background-color: #2c3e50;
@@ -29,6 +61,16 @@ body {
 
 .header h1 {
     font-size: 24px;
+}
+
+.header a {
+    color: white;
+    text-decoration: none;
+}
+
+.header a:hover {
+    opacity: 0.8;
+    cursor: pointer;
 }
 
 .user-info {
@@ -46,10 +88,6 @@ body {
     border-radius: 5px;
 }
 
-.flash-messages ul {
-    list-style: none;
-}
-
 /* メインコンテンツ */
 .main-content {
     background-color: white;
@@ -60,14 +98,14 @@ body {
 }
 
 /* ナビゲーション */
-.navigation {
+nav, .navigation {
     background-color: #34495e;
     padding: 12px;
     border-radius: 5px;
     margin-bottom: 20px;
 }
 
-.navigation a {
+nav a, .navigation a {
     color: white;
     text-decoration: none;
     padding: 8px 15px;
@@ -76,53 +114,45 @@ body {
     transition: background-color 0.3s;
 }
 
-.navigation a:hover {
+nav a:hover, .navigation a:hover {
     background-color: #2c3e50;
+    text-decoration: none;
 }
 
 /* ページヘッダー */
-.page-header h2 {
-    color: #2c3e50;
+.page-header {
     margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 3px solid #3498db;
 }
 
 /* テーブル */
-.menu-table, .info-table, .reviews-table {
+table {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
 }
 
-.menu-table th, .info-table th, .reviews-table th {
+th {
     background-color: #3498db;
     color: white;
     padding: 12px;
     text-align: left;
 }
 
-.menu-table td, .info-table td, .reviews-table td {
+td {
     padding: 10px;
     border-bottom: 1px solid #ddd;
 }
 
-.menu-table tr:hover, .reviews-table tr:hover {
+tbody tr:hover {
     background-color: #f8f9fa;
 }
 
-.menu-table a, .info-table a, .reviews-table a {
-    color: #3498db;
-    text-decoration: none;
-}
-
-.menu-table a:hover {
-    text-decoration: underline;
-}
-
 /* カテゴリリスト */
-.category-list {
+ul {
     list-style: none;
+}
+
+.category-list {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -137,7 +167,7 @@ body {
 }
 
 /* ボタン */
-.btn-primary, button[type="submit"] {
+button {
     background-color: #3498db;
     color: white;
     border: none;
@@ -148,18 +178,29 @@ body {
     transition: background-color 0.3s;
 }
 
-.btn-primary:hover, button[type="submit"]:hover {
+button:hover {
     background-color: #2980b9;
 }
 
 /* フォーム */
+input[type="text"], 
+input[type="password"], 
+select, 
+textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+textarea {
+    resize: vertical;
+}
+
 .auth-form, .review-form {
     max-width: 500px;
     margin: 0 auto;
-}
-
-.auth-form table, .review-form table {
-    width: 100%;
 }
 
 .auth-form th, .review-form th {
@@ -172,33 +213,6 @@ body {
     padding: 10px;
 }
 
-input[type="text"], input[type="password"], select, textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-textarea {
-    resize: vertical;
-}
-
-/* リンク */
-.back-link, .auth-link {
-    margin: 15px 0;
-    display: block;
-}
-
-.back-link a, .auth-link a {
-    color: #3498db;
-    text-decoration: none;
-}
-
-.back-link a:hover, .auth-link a:hover {
-    text-decoration: underline;
-}
-
 /* データなし表示 */
 .no-data {
     text-align: center;
@@ -207,30 +221,26 @@ textarea {
     font-size: 18px;
 }
 
+/* 画像 */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
 /* チャート */
 .chart-container {
     margin: 30px 0;
     text-align: center;
 }
 
-.chart-container h4 {
-    color: #2c3e50;
-    margin-bottom: 15px;
-}
-
 .chart-container img {
-    max-width: 100%;
-    height: auto;
     border-radius: 5px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 /* セクション */
-.menu-info, .reviews-section, .charts-section {
+.menu-info, 
+.reviews-section, 
+.charts-section {
     margin: 30px 0;
-}
-
-.reviews-section h3, .charts-section h3 {
-    color: #2c3e50;
-    margin-bottom: 15px;
 }
