@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>table_design.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid@10.4.0/dist/mermaid.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%E8%A8%AD%E8%A8%88%E6%9B%B8">テーブル設計書</h1>
+<h2 id="1-%E6%A6%82%E8%A6%81">1. 概要</h2>
+<p>学食メニュー満足度アプリのデータベース設計書です。本システムでは、ユーザー管理、メニュー管理、カテゴリ管理、レビュー管理の4つの主要なテーブルで構成されています。</p>
+<h2 id="2-er%E5%9B%B3">2. ER図</h2>
+<pre><code class="language-mermaid"><div class="mermaid">erDiagram
+    users ||--o{ reviews : "投稿する"
+    menus ||--o{ reviews : "受ける"
+    categories ||--o{ menus : "分類する"
+    
+    users {
+        INTEGER id PK "主キー"
+        STRING username UK "ユーザー名(一意)"
+        STRING password_hash "ハッシュ化パスワード"
+        BOOLEAN is_admin "管理者フラグ"
+        DATETIME created_at "登録日時"
+    }
+    
+    categories {
+        INTEGER id PK "主キー"
+        STRING name UK "カテゴリ名(一意)"
+        STRING description "説明"
+        DATETIME created_at "作成日時"
+    }
+    
+    menus {
+        INTEGER id PK "主キー"
+        STRING name "メニュー名"
+        TEXT description "説明"
+        INTEGER price "価格(円)"
+        INTEGER category_id FK "カテゴリID"
+        STRING image_url "画像URL"
+        BOOLEAN is_available "提供状況"
+        DATETIME created_at "作成日時"
+        DATETIME updated_at "更新日時"
+    }
+    
+    reviews {
+        INTEGER id PK "主キー"
+        INTEGER user_id FK "ユーザーID"
+        INTEGER menu_id FK "メニューID"
+        INTEGER rating "総合評価(1-5)"
+        TEXT comment "コメント"
+        INTEGER taste_rating "味の評価(1-5)"
+        INTEGER volume_rating "量の評価(1-5)"
+        INTEGER price_rating "コスパ評価(1-5)"
+        DATETIME created_at "投稿日時"
+        DATETIME updated_at "更新日時"
+    }
+</div></code></pre>
+<h2 id="3-%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%E5%AE%9A%E7%BE%A9%E8%A9%B3%E7%B4%B0">3. テーブル定義詳細</h2>
+<h3 id="31-users%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC">3.1 users（ユーザー）</h3>
+<p>ユーザーアカウント情報を管理するテーブル。</p>
+<table>
+<thead>
+<tr>
+<th>カラム名</th>
+<th>データ型</th>
+<th>制約</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>INTEGER</td>
+<td>PRIMARY KEY</td>
+<td>主キー（自動採番）</td>
+</tr>
+<tr>
+<td>username</td>
+<td>VARCHAR(100)</td>
+<td>NOT NULL, UNIQUE</td>
+<td>ユーザー名（重複不可）</td>
+</tr>
+<tr>
+<td>password_hash</td>
+<td>VARCHAR(200)</td>
+<td>NOT NULL</td>
+<td>ハッシュ化されたパスワード</td>
+</tr>
+<tr>
+<td>is_admin</td>
+<td>BOOLEAN</td>
+<td>DEFAULT FALSE</td>
+<td>管理者権限フラグ</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>DATETIME</td>
+<td>DEFAULT CURRENT_TIMESTAMP</td>
+<td>アカウント作成日時</td>
+</tr>
+</tbody>
+</table>
+<p><strong>インデックス:</strong></p>
+<ul>
+<li>PRIMARY KEY: <code>id</code></li>
+<li>UNIQUE INDEX: <code>username</code></li>
+</ul>
+<p><strong>リレーション:</strong></p>
+<ul>
+<li>reviews テーブルと 1:N の関係（1ユーザーが複数レビューを投稿可能）</li>
+</ul>
+<p><strong>備考:</strong></p>
+<ul>
+<li>パスワードは Werkzeug の <code>generate_password_hash</code> でハッシュ化して保存</li>
+<li><code>check_password_hash</code> で認証時にパスワード検証</li>
+</ul>
+<hr>
+<h3 id="32-categories%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA">3.2 categories（カテゴリ）</h3>
+<p>メニューのカテゴリ情報を管理するテーブル。</p>
+<table>
+<thead>
+<tr>
+<th>カラム名</th>
+<th>データ型</th>
+<th>制約</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>INTEGER</td>
+<td>PRIMARY KEY</td>
+<td>主キー（自動採番）</td>
+</tr>
+<tr>
+<td>name</td>
+<td>VARCHAR(50)</td>
+<td>NOT NULL, UNIQUE</td>
+<td>カテゴリ名（重複不可）</td>
+</tr>
+<tr>
+<td>description</td>
+<td>VARCHAR(200)</td>
+<td>NULL</td>
+<td>カテゴリの説明</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>DATETIME</td>
+<td>DEFAULT CURRENT_TIMESTAMP</td>
+<td>作成日時</td>
+</tr>
+</tbody>
+</table>
+<p><strong>インデックス:</strong></p>
+<ul>
+<li>PRIMARY KEY: <code>id</code></li>
+<li>UNIQUE INDEX: <code>name</code></li>
+</ul>
+<p><strong>リレーション:</strong></p>
+<ul>
+<li>menus テーブルと 1:N の関係（1カテゴリに複数メニューが所属）</li>
+</ul>
+<p><strong>カテゴリ例:</strong></p>
+<ul>
+<li>定食</li>
+<li>丼もの</li>
+<li>麺類</li>
+<li>カレー</li>
+<li>軽食</li>
+<li>デザート</li>
+</ul>
+<hr>
+<h3 id="33-menus%E3%83%A1%E3%83%8B%E3%83%A5%E3%83%BC">3.3 menus（メニュー）</h3>
+<p>学食のメニュー情報を管理するテーブル。</p>
+<table>
+<thead>
+<tr>
+<th>カラム名</th>
+<th>データ型</th>
+<th>制約</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>INTEGER</td>
+<td>PRIMARY KEY</td>
+<td>主キー（自動採番）</td>
+</tr>
+<tr>
+<td>name</td>
+<td>VARCHAR(100)</td>
+<td>NOT NULL</td>
+<td>メニュー名</td>
+</tr>
+<tr>
+<td>description</td>
+<td>TEXT</td>
+<td>NULL</td>
+<td>メニューの詳細説明</td>
+</tr>
+<tr>
+<td>price</td>
+<td>INTEGER</td>
+<td>NOT NULL</td>
+<td>価格（円単位）</td>
+</tr>
+<tr>
+<td>category_id</td>
+<td>INTEGER</td>
+<td>NOT NULL, FOREIGN KEY</td>
+<td>カテゴリID</td>
+</tr>
+<tr>
+<td>image_url</td>
+<td>VARCHAR(300)</td>
+<td>NULL</td>
+<td>メニュー画像のURL</td>
+</tr>
+<tr>
+<td>is_available</td>
+<td>BOOLEAN</td>
+<td>DEFAULT TRUE</td>
+<td>提供中フラグ</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>DATETIME</td>
+<td>DEFAULT CURRENT_TIMESTAMP</td>
+<td>登録日時</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>DATETIME</td>
+<td>DEFAULT CURRENT_TIMESTAMP</td>
+<td>最終更新日時</td>
+</tr>
+</tbody>
+</table>
+<p><strong>インデックス:</strong></p>
+<ul>
+<li>PRIMARY KEY: <code>id</code></li>
+<li>FOREIGN KEY: <code>category_id</code> → categories(id)</li>
+</ul>
+<p><strong>リレーション:</strong></p>
+<ul>
+<li>categories テーブルと N:1 の関係</li>
+<li>reviews テーブルと 1:N の関係（1メニューに複数レビューが投稿可能）</li>
+</ul>
+<p><strong>備考:</strong></p>
+<ul>
+<li><code>is_available = FALSE</code> のメニューは一覧画面に表示されない</li>
+<li><code>updated_at</code> は更新時に自動的に現在日時に更新される</li>
+</ul>
+<hr>
+<h3 id="34-reviews%E3%83%AC%E3%83%93%E3%83%A5%E3%83%BC">3.4 reviews（レビュー）</h3>
+<p>ユーザーがメニューに投稿したレビュー情報を管理するテーブル。</p>
+<table>
+<thead>
+<tr>
+<th>カラム名</th>
+<th>データ型</th>
+<th>制約</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>INTEGER</td>
+<td>PRIMARY KEY</td>
+<td>主キー（自動採番）</td>
+</tr>
+<tr>
+<td>user_id</td>
+<td>INTEGER</td>
+<td>NOT NULL, FOREIGN KEY</td>
+<td>ユーザーID</td>
+</tr>
+<tr>
+<td>menu_id</td>
+<td>INTEGER</td>
+<td>NOT NULL, FOREIGN KEY</td>
+<td>メニューID</td>
+</tr>
+<tr>
+<td>rating</td>
+<td>INTEGER</td>
+<td>NOT NULL, CHECK(1-5)</td>
+<td>総合評価（1〜5の整数）</td>
+</tr>
+<tr>
+<td>comment</td>
+<td>TEXT</td>
+<td>NULL</td>
+<td>レビューコメント</td>
+</tr>
+<tr>
+<td>taste_rating</td>
+<td>INTEGER</td>
+<td>NULL, CHECK(1-5)</td>
+<td>味の評価（1〜5の整数）</td>
+</tr>
+<tr>
+<td>volume_rating</td>
+<td>INTEGER</td>
+<td>NULL, CHECK(1-5)</td>
+<td>量の評価（1〜5の整数）</td>
+</tr>
+<tr>
+<td>price_rating</td>
+<td>INTEGER</td>
+<td>NULL, CHECK(1-5)</td>
+<td>コスパの評価（1〜5の整数）</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>DATETIME</td>
+<td>DEFAULT CURRENT_TIMESTAMP</td>
+<td>投稿日時</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>DATETIME</td>
+<td>DEFAULT CURRENT_TIMESTAMP</td>
+<td>最終更新日時</td>
+</tr>
+</tbody>
+</table>
+<p><strong>インデックス:</strong></p>
+<ul>
+<li>PRIMARY KEY: <code>id</code></li>
+<li>FOREIGN KEY: <code>user_id</code> → users(id)</li>
+<li>FOREIGN KEY: <code>menu_id</code> → menus(id)</li>
+<li>UNIQUE INDEX: <code>(user_id, menu_id)</code> （複合ユニーク制約）</li>
+</ul>
+<p><strong>リレーション:</strong></p>
+<ul>
+<li>users テーブルと N:1 の関係</li>
+<li>menus テーブルと N:1 の関係</li>
+</ul>
+<p><strong>制約:</strong></p>
+<ul>
+<li><code>(user_id, menu_id)</code> の組み合わせは一意（1ユーザーは1メニューに対して1レビューまで）</li>
+<li>評価値は 1〜5 の範囲内</li>
+</ul>
+<p><strong>備考:</strong></p>
+<ul>
+<li>必須項目は <code>rating</code>（総合評価）のみ</li>
+<li>詳細評価（味・量・コスパ）とコメントは任意</li>
+<li>既存レビューがある場合は編集（UPDATE）が可能</li>
+</ul>
+<hr>
+<h2 id="4-%E3%83%AA%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%B7%E3%83%83%E3%83%97%E8%A9%B3%E7%B4%B0">4. リレーションシップ詳細</h2>
+<h3 id="41-users-%E2%86%92-reviews1n">4.1 users → reviews（1:N）</h3>
+<ul>
+<li>1人のユーザーは複数のレビューを投稿できる</li>
+<li>ユーザー削除時は関連するレビューも削除（CASCADE）</li>
+</ul>
+<h3 id="42-categories-%E2%86%92-menus1n">4.2 categories → menus（1:N）</h3>
+<ul>
+<li>1つのカテゴリには複数のメニューが所属できる</li>
+<li>カテゴリ削除時は関連するメニューの扱いは未定義（要検討）</li>
+</ul>
+<h3 id="43-menus-%E2%86%92-reviews1n">4.3 menus → reviews（1:N）</h3>
+<ul>
+<li>1つのメニューには複数のレビューが投稿される</li>
+<li>メニュー削除時は関連するレビューも削除（CASCADE）</li>
+</ul>
+<h3 id="44-users-%C3%97-menus-%E2%86%92-reviewsnm">4.4 users × menus → reviews（N:M）</h3>
+<ul>
+<li>users と menus は reviews テーブルを介して多対多の関係</li>
+<li>ただし、1ユーザーは1メニューに対して1レビューのみ（UNIQUE制約）</li>
+</ul>
+<hr>
+<h2 id="5-%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E6%93%8D%E4%BD%9C%E3%81%AE%E3%83%93%E3%82%B8%E3%83%8D%E3%82%B9%E3%83%AB%E3%83%BC%E3%83%AB">5. データベース操作のビジネスルール</h2>
+<h3 id="51-%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC%E7%99%BB%E9%8C%B2">5.1 ユーザー登録</h3>
+<ul>
+<li>ユーザー名の重複チェック必須</li>
+<li>パスワードは必ずハッシュ化して保存</li>
+<li>デフォルトで <code>is_admin = FALSE</code></li>
+</ul>
+<h3 id="52-%E3%83%AC%E3%83%93%E3%83%A5%E3%83%BC%E6%8A%95%E7%A8%BF">5.2 レビュー投稿</h3>
+<ul>
+<li>1ユーザーは1メニューに対して1レビューまで</li>
+<li>既にレビューが存在する場合は更新処理</li>
+<li><code>rating</code> は必須、他の評価項目は任意</li>
+</ul>
+<h3 id="53-%E5%B9%B3%E5%9D%87%E8%A9%95%E4%BE%A1%E3%81%AE%E8%A8%88%E7%AE%97">5.3 平均評価の計算</h3>
+<ul>
+<li>メニューの平均評価は reviews テーブルから動的に計算</li>
+<li>レビューが0件の場合は評価0として表示</li>
+<li>詳細評価（味・量・コスパ）は値がある場合のみ平均を計算</li>
+</ul>
+<h3 id="54-%E3%83%87%E3%83%BC%E3%82%BF%E5%89%8A%E9%99%A4">5.4 データ削除</h3>
+<ul>
+<li>ユーザー削除時: 関連レビューも削除（CASCADE）</li>
+<li>メニュー削除時: 関連レビューも削除（CASCADE）</li>
+<li>カテゴリ削除時: メニューが存在する場合は削除不可（要検討）</li>
+</ul>
+<hr>
+<h2 id="6-%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9%E6%88%A6%E7%95%A5">6. インデックス戦略</h2>
+<h3 id="61-%E4%B8%BB%E8%A6%81%E3%82%AF%E3%82%A8%E3%83%AA%E3%81%A8%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9">6.1 主要クエリとインデックス</h3>
+<table>
+<thead>
+<tr>
+<th>クエリ内容</th>
+<th>使用インデックス</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ユーザー名でログイン</td>
+<td>users.username (UNIQUE)</td>
+</tr>
+<tr>
+<td>メニュー一覧取得</td>
+<td>menus.is_available</td>
+</tr>
+<tr>
+<td>カテゴリ別メニュー取得</td>
+<td>menus.category_id</td>
+</tr>
+<tr>
+<td>メニューのレビュー取得</td>
+<td>reviews.menu_id</td>
+</tr>
+<tr>
+<td>ユーザーのレビュー取得</td>
+<td>reviews.user_id</td>
+</tr>
+<tr>
+<td>ユーザー×メニューのレビュー確認</td>
+<td>reviews.(user_id, menu_id) (UNIQUE)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-%E6%8E%A8%E5%A5%A8%E3%81%95%E3%82%8C%E3%82%8B%E8%BF%BD%E5%8A%A0%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9">6.2 推奨される追加インデックス</h3>
+<p>規模が大きくなった場合に追加を検討:</p>
+<ul>
+<li><code>menus.is_available</code> - メニュー一覧の高速化</li>
+<li><code>reviews.created_at</code> - レビュー新着順ソートの高速化</li>
+</ul>
+<hr>
+<h2 id="7-%E3%83%87%E3%83%BC%E3%82%BF%E6%95%B4%E5%90%88%E6%80%A7">7. データ整合性</h2>
+<h3 id="71-%E5%A4%96%E9%83%A8%E3%82%AD%E3%83%BC%E5%88%B6%E7%B4%84">7.1 外部キー制約</h3>
+<p>すべての外部キー参照で参照整合性を保証:</p>
+<ul>
+<li><code>menus.category_id</code> → <code>categories.id</code></li>
+<li><code>reviews.user_id</code> → <code>users.id</code></li>
+<li><code>reviews.menu_id</code> → <code>menus.id</code></li>
+</ul>
+<h3 id="72-%E4%B8%80%E6%84%8F%E6%80%A7%E5%88%B6%E7%B4%84">7.2 一意性制約</h3>
+<ul>
+<li><code>users.username</code>: ユーザー名の重複防止</li>
+<li><code>categories.name</code>: カテゴリ名の重複防止</li>
+<li><code>reviews.(user_id, menu_id)</code>: 1ユーザー1メニュー1レビュー制約</li>
+</ul>
+<h3 id="73-check%E5%88%B6%E7%B4%84">7.3 CHECK制約</h3>
+<ul>
+<li><code>reviews.rating</code>: 1〜5の範囲チェック</li>
+<li><code>reviews.taste_rating</code>: 1〜5の範囲チェック（NULL許可）</li>
+<li><code>reviews.volume_rating</code>: 1〜5の範囲チェック（NULL許可）</li>
+<li><code>reviews.price_rating</code>: 1〜5の範囲チェック（NULL許可）</li>
+</ul>
+<hr>
+
+</body>
+</html>
