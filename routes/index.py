@@ -131,6 +131,61 @@ def post_review(id):
     return render_template('post_review.html', user=user, menu=menu, review=existing_review)
 
 
+# 管理者専用: メニュー新規追加
+@index_bp.route('/admin/menus/new', methods=['GET', 'POST'])
+def add_menu():
+    # ログインチェック
+    if 'user_id' not in session:
+        return redirect(url_for('auth.login'))
+    
+    user = User.query.get(session['user_id'])
+    
+    # 管理者チェック
+    if not user.is_admin:
+        flash('管理者権限がありません')
+        return redirect(url_for('index.index'))
+    
+    if request.method == 'POST':
+        name = request.form.get('name', '').strip()
+        description = request.form.get('description', '').strip()
+        price = request.form.get('price', '').strip()
+        category_id = request.form.get('category_id', '').strip()
+        
+        # バリデーション
+        if not name:
+            flash('メニュー名を入力してください')
+            categories = Category.query.all()
+            return render_template('add_menu.html', user=user, categories=categories)
+        
+        if not price or not price.isdigit() or int(price) <= 0:
+            flash('価格は正の整数で入力してください')
+            categories = Category.query.all()
+            return render_template('add_menu.html', user=user, categories=categories)
+        
+        if not category_id or not category_id.isdigit():
+            flash('カテゴリを選択してください')
+            categories = Category.query.all()
+            return render_template('add_menu.html', user=user, categories=categories)
+        
+        # メニューを作成
+        menu = Menu(
+            name=name,
+            description=description if description else None,
+            price=int(price),
+            category_id=int(category_id),
+            is_available=True
+        )
+        db.session.add(menu)
+        db.session.commit()
+        
+        flash(f'メニュー「{name}」を追加しました')
+        return redirect(url_for('index.index'))
+    
+    # GET: メニュー追加フォームを表示
+    categories = Category.query.all()
+    return render_template('add_menu.html', user=user, categories=categories)
+
+
 # 管理者専用: メニュー削除
 @index_bp.route('/menus/<int:id>/delete', methods=['POST'])
 def delete_menu(id):
