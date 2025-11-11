@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}{{ menu.name }} - 学食メニュー満足度アプリ{% endblock %}
+
+{% block content %}
+<div class="menu-detail-page">
+    <div class="page-header">
+        <h2>{{ menu.name }}</h2>
+    </div>
+
+    <p class="back-link"><a href="/">メニュー一覧に戻る</a></p>
+
+    <div class="menu-info">
+        <table class="info-table" border="1">
+            <tr>
+                <th>カテゴリ</th>
+                <td>{{ menu.category.name }}</td>
+            </tr>
+            <tr>
+                <th>価格</th>
+                <td>{{ menu.price }}円</td>
+            </tr>
+            {% if menu.description %}
+            <tr>
+                <th>説明</th>
+                <td>{{ menu.description }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <th>平均評価</th>
+                <td>{{ avg_rating }} ({{ review_count }}件)</td>
+            </tr>
+            {% if avg_taste > 0 %}
+            <tr>
+                <th>味</th>
+                <td>{{ avg_taste }}</td>
+            </tr>
+            {% endif %}
+            {% if avg_volume > 0 %}
+            <tr>
+                <th>量</th>
+                <td>{{ avg_volume }}</td>
+            </tr>
+            {% endif %}
+            {% if avg_price > 0 %}
+            <tr>
+                <th>コスパ</th>
+                <td>{{ avg_price }}</td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>
+
+    <div class="review-action">
+        {% if user_review %}
+        <p><a href="/menus/{{ menu.id }}/review" class="btn-primary">レビューを編集</a></p>
+        {% else %}
+        <p><a href="/menus/{{ menu.id }}/review" class="btn-primary">レビューを投稿</a></p>
+        {% endif %}
+    </div>
+
+    <div class="reviews-section">
+        <h3>レビュー一覧</h3>
+        {% if reviews %}
+        <table class="reviews-table" border="1">
+            <thead>
+                <tr>
+                    <th>ユーザー</th>
+                    <th>評価</th>
+                    <th>味</th>
+                    <th>量</th>
+                    <th>コスパ</th>
+                    <th>コメント</th>
+                    <th>投稿日</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for review in reviews %}
+                <tr>
+                    <td>{{ review.user.username }}</td>
+                    <td>{{ review.rating }}</td>
+                    <td>{{ review.taste_rating if review.taste_rating else '-' }}</td>
+                    <td>{{ review.volume_rating if review.volume_rating else '-' }}</td>
+                    <td>{{ review.price_rating if review.price_rating else '-' }}</td>
+                    <td>{{ review.comment if review.comment else '-' }}</td>
+                    <td>{{ review.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="no-data">
+            <p>レビューがありません</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}データ分析 - 学食メニュー満足度アプリ{% endblock %}
+
+{% block content %}
+<div class="analysis-page">
+    <div class="page-header">
+        <h2>データ分析ダッシュボード</h2>
+    </div>
+
+    <p class="back-link"><a href="/">メニュー一覧に戻る</a></p>
+
+    {% if charts %}
+    <div class="charts-section">
+
+
+        {% if charts.popular_menus %}
+        <div class="chart-container">
+            <h3>話題メニュー TOP10</h3>
+            <img src="data:image/png;base64,{{ charts.popular_menus }}" alt="話題メニュー">
+        </div>
+        {% endif %}
+    </div>
+    {% else %}
+    <div class="no-data">
+        <p>レビューデータがまだありません</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

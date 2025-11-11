@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}学食メニュー満足度アプリ{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>学食メニュー満足度アプリ</h1>
+            {% if user %}
+            <p class="user-info">ログイン中: {{ user.username }}</p>
+            {% endif %}
+        </div>
+    </header>
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="flash-messages">
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    {% endwith %}
+    
+    <main class="main-content">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+</body>
+</html>

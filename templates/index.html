@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}メニュー一覧 - 学食メニュー満足度アプリ{% endblock %}
+
+{% block content %}
+<nav class="navigation">
+    <a href="/">メニュー一覧</a> | 
+    <a href="/analysis">データ分析</a> | 
+    <a href="/logout">ログアウト</a>
+</nav>
+
+<div class="page-header">
+    <h2>メニュー一覧</h2>
+</div>
+
+{% if categories %}
+<div class="categories-section">
+    <h3>カテゴリ</h3>
+    <ul class="category-list">
+        {% for category in categories %}
+        <li>{{ category.name }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% if menus %}
+<div class="menu-list-section">
+    <table class="menu-table" border="1">
+        <thead>
+            <tr>
+                <th>メニュー名</th>
+                <th>カテゴリ</th>
+                <th>価格</th>
+                <th>平均評価</th>
+                <th>レビュー数</th>
+                <th>詳細</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for menu in menus %}
+            <tr>
+                <td>{{ menu.name }}</td>
+                <td>{{ menu.category.name }}</td>
+                <td>{{ menu.price }}円</td>
+                <td>{{ menu_stats[menu.id].avg_rating }}</td>
+                <td>{{ menu_stats[menu.id].review_count }}</td>
+                <td><a href="/menus/{{ menu.id }}">詳細</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="no-data">
+    <p>メニューがありません</p>
+</div>
+{% endif %}
+{% endblock %}

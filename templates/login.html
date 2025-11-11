@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}ログイン - 学食メニュー満足度アプリ{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-form">
+        <h2>ログイン</h2>
+
+        <form method="POST">
+            <table>
+                <tr>
+                    <th><label for="username">ユーザー名:</label></th>
+                    <td><input type="text" id="username" name="username" required></td>
+                </tr>
+                <tr>
+                    <th><label for="password">パスワード:</label></th>
+                    <td><input type="password" id="password" name="password" required></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button type="submit" class="btn-primary">ログイン</button></td>
+                </tr>
+            </table>
+        </form>
+
+        <p class="auth-link"><a href="/register">ユーザー登録</a></p>
+    </div>
+</div>
+{% endblock %}

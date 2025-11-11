@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}レビュー投稿 - {{ menu.name }}{% endblock %}
+
+{% block content %}
+<div class="review-form-page">
+    <div class="page-header">
+        <h2>{{ menu.name }} - レビュー{% if review %}編集{% else %}投稿{% endif %}</h2>
+    </div>
+
+    <p class="back-link"><a href="/menus/{{ menu.id }}">メニュー詳細に戻る</a></p>
+
+    <div class="review-form">
+        <form method="POST">
+            <table>
+                <tr>
+                    <th><label for="rating">総合評価 (必須):</label></th>
+                    <td>
+                        <select name="rating" id="rating" required>
+                            <option value="">選択してください</option>
+                            <option value="5" {% if review and review.rating == 5 %}selected{% endif %}>5 - 最高</option>
+                            <option value="4" {% if review and review.rating == 4 %}selected{% endif %}>4 - 良い</option>
+                            <option value="3" {% if review and review.rating == 3 %}selected{% endif %}>3 - 普通</option>
+                            <option value="2" {% if review and review.rating == 2 %}selected{% endif %}>2 - イマイチ</option>
+                            <option value="1" {% if review and review.rating == 1 %}selected{% endif %}>1 - 悪い</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="taste_rating">味の評価:</label></th>
+                    <td>
+                        <select name="taste_rating" id="taste_rating">
+                            <option value="">選択しない</option>
+                            <option value="5" {% if review and review.taste_rating == 5 %}selected{% endif %}>5</option>
+                            <option value="4" {% if review and review.taste_rating == 4 %}selected{% endif %}>4</option>
+                            <option value="3" {% if review and review.taste_rating == 3 %}selected{% endif %}>3</option>
+                            <option value="2" {% if review and review.taste_rating == 2 %}selected{% endif %}>2</option>
+                            <option value="1" {% if review and review.taste_rating == 1 %}selected{% endif %}>1</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="volume_rating">量の評価:</label></th>
+                    <td>
+                        <select name="volume_rating" id="volume_rating">
+                            <option value="">選択しない</option>
+                            <option value="5" {% if review and review.volume_rating == 5 %}selected{% endif %}>5</option>
+                            <option value="4" {% if review and review.volume_rating == 4 %}selected{% endif %}>4</option>
+                            <option value="3" {% if review and review.volume_rating == 3 %}selected{% endif %}>3</option>
+                            <option value="2" {% if review and review.volume_rating == 2 %}selected{% endif %}>2</option>
+                            <option value="1" {% if review and review.volume_rating == 1 %}selected{% endif %}>1</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="price_rating">コスパの評価:</label></th>
+                    <td>
+                        <select name="price_rating" id="price_rating">
+                            <option value="">選択しない</option>
+                            <option value="5" {% if review and review.price_rating == 5 %}selected{% endif %}>5</option>
+                            <option value="4" {% if review and review.price_rating == 4 %}selected{% endif %}>4</option>
+                            <option value="3" {% if review and review.price_rating == 3 %}selected{% endif %}>3</option>
+                            <option value="2" {% if review and review.price_rating == 2 %}selected{% endif %}>2</option>
+                            <option value="1" {% if review and review.price_rating == 1 %}selected{% endif %}>1</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="comment">コメント:</label></th>
+                    <td>
+                        <textarea name="comment" id="comment" rows="5" cols="50">{% if review %}{{ review.comment }}{% endif %}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="submit" class="btn-primary">{% if review %}更新{% else %}投稿{% endif %}</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+{% endblock %}
