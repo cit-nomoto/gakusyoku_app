@@ -6,11 +6,18 @@
 <nav class="navigation">
     <a href="/">メニュー一覧</a> | 
     <a href="/analysis">データ分析</a> | 
+    {% if user.is_admin %}
+    <a href="/admin/users">ユーザー管理</a> | 
+    {% endif %}
     <a href="/logout">ログアウト</a>
 </nav>
 
 <div class="page-header">
     <h2>メニュー一覧</h2>
+    {% if user.is_admin %}
+    <p><a href="/admin/menus/new" class="btn-primary">メニューを追加</a></p>
+    <br>
+    {% endif %}
 </div>
 
 {% if categories %}
@@ -35,6 +42,9 @@
                 <th>平均評価</th>
                 <th>レビュー数</th>
                 <th>詳細</th>
+                {% if user.is_admin %}
+                <th>管理</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -46,6 +56,13 @@
                 <td>{{ menu_stats[menu.id].avg_rating }}</td>
                 <td>{{ menu_stats[menu.id].review_count }}</td>
                 <td><a href="/menus/{{ menu.id }}">詳細</a></td>
+                {% if user.is_admin %}
+                <td>
+                    <form method="POST" action="/menus/{{ menu.id }}/delete" style="display:inline;" onsubmit="return confirm('本当に削除しますか?');">
+                        <button type="submit">削除</button>
+                    </form>
+                </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
