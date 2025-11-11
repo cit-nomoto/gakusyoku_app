@@ -26,5 +26,39 @@
         <p>レビューデータがまだありません</p>
     </div>
     {% endif %}
+
+    {% if recommendations %}
+    <div class="ml-section">
+        <h3>次週の話題メニュー予測</h3>
+        <p class="prediction-info">{{ recommendations.next_week }}の予測結果</p>
+        
+        <table border="1" class="recommendation-table">
+            <thead>
+                <tr>
+                    <th>順位</th>
+                    <th>メニュー名</th>
+                    <th>カテゴリ</th>
+                    <th>価格</th>
+                    <th>予測レビュー数</th>
+                    <th>平均評価</th>
+                    <th>総合スコア</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for menu in recommendations.top_predictions %}
+                <tr>
+                    <td><strong>{{ loop.index }}</strong></td>
+                    <td><strong>{{ menu.menu_name }}</strong></td>
+                    <td>{{ menu.category }}</td>
+                    <td>{{ menu.price }}円</td>
+                    <td>{{ menu.predicted_popularity }}件</td>
+                    <td>☆{{ menu.avg_rating }}</td>
+                    <td><span class="score-badge">{{ menu.total_score }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
