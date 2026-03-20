@@ -22,11 +22,16 @@ def create_app():
     
     return app
 
+
+def init_database(app):
+    # Cloud Runのgunicorn起動時にもテーブルを自動作成する
+    with app.app_context():
+        db.create_all()
+
 # Cloud Run (gunicorn main:app) が参照する公開変数
 app = create_app()
+init_database(app)
 
 # 呼び出されたとき、アプリケーションを実行
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
