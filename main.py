@@ -22,9 +22,11 @@ def create_app():
     
     return app
 
+# Cloud Run (gunicorn main:app) が参照する公開変数
+app = create_app()
+
 # 呼び出されたとき、アプリケーションを実行
 if __name__ == '__main__':
-    app = create_app()
     with app.app_context():
         db.create_all()
     app.run(debug=True)
