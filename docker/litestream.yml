@@ -1,0 +1,7 @@
+dbs:
+  - path: /app/instance/app.db # データベースファイルのローカルパス
+    # レプリケート先
+    replicas:
+      - type: gcs # レプリケート先のタイプ
+        bucket: gakusyoku_app-db # バケット名
+        path: app.db # レプリケート先のパス
