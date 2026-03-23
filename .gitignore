@@ -118,6 +118,9 @@ venv.bak/
 # mypy
 .mypy_cache/
 .dmypy.json
+
+# Build artifact
+gakusyoku_app.zip
 dmypy.json
 
 # Pyre type checker
