@@ -24,11 +24,9 @@ def create_app():
 
 
 def init_database(app):
-    # Cloud Runのgunicorn起動時にもテーブルを自動作成する
     with app.app_context():
         db.create_all()
 
-# Cloud Run (gunicorn main:app) が参照する公開変数
 app = create_app()
 init_database(app)
 
